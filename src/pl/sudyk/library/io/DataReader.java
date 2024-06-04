@@ -8,21 +8,25 @@ public class DataReader {
     private Scanner sc = new Scanner(System.in);
 
     public Book readAndCreateBook() {
-        System.out.println("Tytuł:");
+        System.out.println("Title:");
         String title = sc.nextLine();
-        System.out.println("Autor: ");
+        System.out.println("Author: ");
         String author = sc.nextLine();
-        System.out.println("Wydawnictwo: ");
+        System.out.println("Publisher: ");
         String publisher = sc.nextLine();
         System.out.println("ISNB: ");
         String isbn = sc.nextLine();
-        System.out.println("Rok wydania: ");
-        int releaseDate = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Liczba stron: ");
-        int pages = sc.nextInt();
-        sc.nextLine();
+        System.out.println("Release date: ");
+        int releaseDate = getInt();
+        System.out.println("Pages: ");
+        int pages = getInt();
         return new Book(title, author, releaseDate, pages, publisher, isbn);
+    }
+
+    public int getInt() {
+        int number = sc.nextInt();
+        sc.nextLine();
+        return number;
     }
 
     public void close() {
