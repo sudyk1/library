@@ -6,9 +6,10 @@ import pl.sudyk.library.model.Library;
 
 class LibraryControl {
 
-    private final int exit = 0;
-    private final int addBook = 1;
-    private final int printBooks = 2;
+    private static final int EXIT = 0;
+    private static final int ADD_BOOK = 1;
+    private static final int PRINT_BOOKS = 2;
+
     private DataReader dataReader = new DataReader();
     private Library library = new Library();
 
@@ -19,19 +20,19 @@ class LibraryControl {
             printOptions();
             option = dataReader.getInt();
             switch (option) {
-                case addBook:
+                case ADD_BOOK:
                     addBook();
                     break;
-                case printBooks:
+                case PRINT_BOOKS:
                     printBooks();
                     break;
-                case exit:
+                case EXIT:
                     exit();
                     break;
                 default:
                     System.out.println("No such option, choose again.");
             }
-        } while (option != exit);
+        } while (option != EXIT);
     }
 
     private void exit() {
@@ -50,8 +51,8 @@ class LibraryControl {
 
     private void printOptions() {
         System.out.println("Choose option:");
-        System.out.println(exit + " - exit application");
-        System.out.println(addBook + " - add book");
-        System.out.println(printBooks + " - view books");
+        System.out.println(EXIT + " - exit application");
+        System.out.println(ADD_BOOK + " - add book");
+        System.out.println(PRINT_BOOKS + " - view books");
     }
 }
