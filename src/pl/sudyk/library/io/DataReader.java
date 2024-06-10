@@ -6,7 +6,7 @@ import pl.sudyk.library.model.Magazine;
 import java.util.Scanner;
 
 public class DataReader {
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public Book readAndCreateBook() {
         System.out.println("Title:");

@@ -13,8 +13,8 @@ class LibraryControl {
     private static final int PRINT_BOOKS = 3;
     private static final int PRINT_MAGAZINES = 4;
 
-    private DataReader dataReader = new DataReader();
-    private Library library = new Library();
+    private final DataReader dataReader = new DataReader();
+    private final Library library = new Library();
 
     public void controlLoop() {
         int option;
