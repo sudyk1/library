@@ -5,47 +5,26 @@ public class Library {
     private int publicationsNumber = 0;
     private Publication[] publications = new Publication[MAX_PUBLICATIONS];
 
-    public void addBook(Book book) {
-        if (publicationsNumber < MAX_PUBLICATIONS) {
-            publications[publicationsNumber] = book;
-            publicationsNumber++;
-        } else {
-            System.out.println("Maximum number of books in library has been reached.");
+    public Publication[] getPublications() {
+        Publication[] result = new Publication[publicationsNumber];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = publications[i];
         }
+        return result;
     }
 
-    public void printBooks() {
-        int countBooks = 0;
-        for (int i = 0; i < publicationsNumber; i++) {
-            if (publications[i] instanceof Book) {
-                System.out.println(publications[i]);;
-                countBooks++;
-            }
-        }
-        if (countBooks == 0) {
-            System.out.println("No books in library.");
-        }
+    public void addBook(Book book) {
+        addPublication(book);
     }
 
     public void addMagazine(Magazine magazine) {
-        if (publicationsNumber < MAX_PUBLICATIONS) {
-            publications[publicationsNumber] = magazine;
-            publicationsNumber++;
-        } else {
-            System.out.println("Maximum number of magazines in library has been reached.");
-        }
+        addPublication(magazine);
     }
 
-    public void printMagazines() {
-        int countMagazines = 0;
-        for (int i = 0; i < publicationsNumber; i++) {
-            if (publications[i] instanceof Magazine) {
-                System.out.println(publications[i]);;
-                countMagazines++;
-            }
-        }
-        if (countMagazines == 0) {
-            System.out.println("No magazines in library.");
-        }
+    public void addPublication(Publication publication) {
+        if (publicationsNumber >= MAX_PUBLICATIONS)
+            throw new ArrayIndexOutOfBoundsException("Max publications exceeded " + MAX_PUBLICATIONS);
+        publications[publicationsNumber] = publication;
+        publicationsNumber++;
     }
 }

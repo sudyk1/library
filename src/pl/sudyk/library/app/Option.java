@@ -1,5 +1,7 @@
 package pl.sudyk.library.app;
 
+import pl.sudyk.library.exception.NoSuchOptionException;
+
 public enum Option {
     EXIT(0, "exit application"),
     ADD_BOOK(1, "add book"),
@@ -28,7 +30,11 @@ public enum Option {
         return value + " - " + description;
     }
 
-    static Option createFromInt(int option) {
-        return Option.values()[option];
+    static Option createFromInt(int option) throws NoSuchOptionException {
+        try {
+            return Option.values()[option];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new NoSuchOptionException("No option of id - " + option);
+        }
     }
 }
