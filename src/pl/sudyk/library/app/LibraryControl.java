@@ -1,8 +1,12 @@
 package pl.sudyk.library.app;
 
+import pl.sudyk.library.exception.DataExportException;
+import pl.sudyk.library.exception.DataImportException;
 import pl.sudyk.library.exception.NoSuchOptionException;
 import pl.sudyk.library.io.ConsolePrinter;
 import pl.sudyk.library.io.DataReader;
+import pl.sudyk.library.io.file.FileManager;
+import pl.sudyk.library.io.file.FileManagerBuilder;
 import pl.sudyk.library.model.Book;
 import pl.sudyk.library.model.Library;
 import pl.sudyk.library.model.Magazine;
@@ -13,9 +17,24 @@ class LibraryControl {
 
     private ConsolePrinter printer = new ConsolePrinter();
     private final DataReader dataReader = new DataReader(printer);
-    private final Library library = new Library();
+    private FileManager fileManager;
+    private Library library;
 
-    public void controlLoop() {
+    LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+
+        try {
+            library = fileManager.importData();
+            printer.printLine("Data has been imported from file.");
+        } catch (DataImportException e) {
+            printer.printLine(e.getMessage());
+            printer.printLine("A new base has been initiated.");
+            library = new Library();
+        }
+
+    }
+
+    void controlLoop() {
         Option option;
 
         do {
@@ -75,6 +94,12 @@ class LibraryControl {
     }
 
     private void exit() {
+        try {
+            fileManager.exportData(library);
+            printer.printLine("Data export to file succeeded");
+        } catch (DataExportException e) {
+            printer.printLine(e.getMessage());
+        }
         printer.printLine("Shooting down, bye.");
         dataReader.close();
     }
@@ -114,14 +139,6 @@ class LibraryControl {
         Option(int value, String description) {
             this.value = value;
             this.description = description;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public String getDescription() {
-            return description;
         }
 
         @Override
