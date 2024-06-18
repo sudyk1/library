@@ -2,6 +2,7 @@ package pl.sudyk.library.app;
 
 import pl.sudyk.library.exception.DataExportException;
 import pl.sudyk.library.exception.DataImportException;
+import pl.sudyk.library.exception.InvalidDataException;
 import pl.sudyk.library.exception.NoSuchOptionException;
 import pl.sudyk.library.io.ConsolePrinter;
 import pl.sudyk.library.io.DataReader;
@@ -26,7 +27,7 @@ class LibraryControl {
         try {
             library = fileManager.importData();
             printer.printLine("Data has been imported from file.");
-        } catch (DataImportException e) {
+        } catch (DataImportException | InvalidDataException e) {
             printer.printLine(e.getMessage());
             printer.printLine("A new base has been initiated.");
             library = new Library();
@@ -85,7 +86,7 @@ class LibraryControl {
     private void addMagazine() {
         try {
             Magazine magazine = dataReader.readAndCreateMagazine();
-            library.addMagazine(magazine);
+            library.addPublication(magazine);
         } catch (InputMismatchException e) {
             printer.printLine("Faild to create magazine, incorrect data.");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -111,7 +112,7 @@ class LibraryControl {
     private void addBook() {
         try {
             Book book = dataReader.readAndCreateBook();
-            library.addBook(book);
+            library.addPublication(book);
         } catch (InputMismatchException e) {
             printer.printLine("Faild to create book, incorrect data.");
         } catch (ArrayIndexOutOfBoundsException e) {
