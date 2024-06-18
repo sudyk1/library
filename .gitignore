@@ -1,9 +1,12 @@
-<<<<<<< HEAD
 # Compiled class file
 *.class
 
 # Log file
 *.log
+
+# Save data
+*.o
+*.csv
 
 # BlueJ files
 *.ctxt
@@ -53,4 +56,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
->>>>>>> 5ab9609 (Version 2 added Book class)
