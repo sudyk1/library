@@ -54,6 +54,12 @@ class LibraryControl {
                 case PRINT_MAGAZINES:
                     printMagazines();
                     break;
+                case DELETE_BOOK:
+                    deleteBook();
+                    break;
+                case DELETE_MAGAZINE:
+                    deleteMagazine();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -62,6 +68,7 @@ class LibraryControl {
             }
         } while (option != Option.EXIT);
     }
+
 
     private Option getOption() {
         boolean optionOk = false;
@@ -94,6 +101,19 @@ class LibraryControl {
         }
     }
 
+    private void deleteMagazine() {
+        try {
+            Magazine magazine = dataReader.readAndCreateMagazine();
+            if (library.removePublication(magazine)) {
+                printer.printLine("Magazine has been removed from library.");
+            } else {
+                printer.printLine("There is no such magazine in library.");
+            }
+        } catch (InputMismatchException e) {
+            printer.printLine("Failed to create magazine, incorrect data.");
+        }
+    }
+
     private void exit() {
         try {
             fileManager.exportData(library);
@@ -120,6 +140,19 @@ class LibraryControl {
         }
     }
 
+    private void deleteBook() {
+        try {
+            Book book = dataReader.readAndCreateBook();
+            if (library.removePublication(book)) {
+                printer.printLine("Book has been removed from library.");
+            } else {
+                printer.printLine("There is no such book in library.");
+            }
+        } catch (InputMismatchException e) {
+            printer.printLine("Failed to create book, incorrect data.");
+        }
+    }
+
     private void printOptions() {
         printer.printLine("Choose option:");
         for (Option option : Option.values()) {
@@ -132,7 +165,9 @@ class LibraryControl {
         ADD_BOOK(1, "add book"),
         ADD_MAGAZINE(2, "add magazine"),
         PRINT_BOOKS(3, "view books"),
-        PRINT_MAGAZINES(4, "view magazines");
+        PRINT_MAGAZINES(4, "view magazines"),
+        DELETE_BOOK(5, "delete book"),
+        DELETE_MAGAZINE(6, "delete magazine");
 
         private final int value;
         private final String description;
