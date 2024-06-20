@@ -134,7 +134,7 @@ class LibraryControl {
             Book book = dataReader.readAndCreateBook();
             library.addPublication(book);
         } catch (InputMismatchException e) {
-            printer.printLine("Faild to create book, incorrect data.");
+            printer.printLine("Failed to create book, incorrect data.");
         } catch (ArrayIndexOutOfBoundsException e) {
             printer.printLine(e.getMessage());
         }
