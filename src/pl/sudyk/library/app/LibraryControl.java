@@ -11,7 +11,10 @@ import pl.sudyk.library.io.file.FileManagerBuilder;
 import pl.sudyk.library.model.Book;
 import pl.sudyk.library.model.Library;
 import pl.sudyk.library.model.Magazine;
+import pl.sudyk.library.model.Publication;
+import pl.sudyk.library.model.comparator.AlphabeticalComparator;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -87,7 +90,14 @@ class LibraryControl {
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getPublications());
+        Publication[] publications = getSortedPublications();
+        printer.printMagazines(publications);
+    }
+
+    private Publication[] getSortedPublications() {
+        Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new AlphabeticalComparator());
+        return publications;
     }
 
     private void addMagazine() {
@@ -126,7 +136,8 @@ class LibraryControl {
     }
 
     private void printBooks() {
-        printer.printBooks(library.getPublications());
+        Publication[] publications = getSortedPublications();
+        printer.printBooks(publications);
     }
 
     private void addBook() {
