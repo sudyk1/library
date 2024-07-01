@@ -1,6 +1,7 @@
 package pl.sudyk.library.io;
 
 import pl.sudyk.library.model.Book;
+import pl.sudyk.library.model.LibraryUser;
 import pl.sudyk.library.model.Magazine;
 
 import java.util.Scanner;
@@ -43,6 +44,16 @@ public class DataReader {
         printer.printLine("Release day: ");
         int day = getInt();
         return new Magazine(title, publisher, language, year, month, day);
+    }
+
+    public LibraryUser createLibraryUser() {
+        printer.printLine("Name:");
+        String firstName = sc.nextLine();
+        printer.printLine("Last name:");
+        String lastName = sc.nextLine();
+        printer.printLine("PESEL:");
+        String pesel = sc.nextLine();
+        return new LibraryUser(firstName, lastName, pesel);
     }
 
     public int getInt() {

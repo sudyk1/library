@@ -3,20 +3,47 @@ package pl.sudyk.library.io.file;
 import pl.sudyk.library.exception.DataExportException;
 import pl.sudyk.library.exception.DataImportException;
 import pl.sudyk.library.exception.InvalidDataException;
-import pl.sudyk.library.model.Book;
-import pl.sudyk.library.model.Library;
-import pl.sudyk.library.model.Magazine;
-import pl.sudyk.library.model.Publication;
+import pl.sudyk.library.model.*;
 
 import java.io.*;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CsvFileManager implements FileManager {
     private static final String FILE_NAME = "Library.csv";
+    private static final String USERS_FILE_NAME = "Library_users.csv";
 
     @Override
     public Library importData() {
         Library library = new Library();
+        importPublications(library);
+        importUsers(library);
+
+        return library;
+    }
+
+    private void importUsers(Library library) {
+        try (Scanner fileReader = new Scanner(new File(USERS_FILE_NAME))) {
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                LibraryUser user = createUserFromString(line);
+                library.addUser(user);
+            }
+        } catch (FileNotFoundException e) {
+            throw new DataImportException("Not implemented");
+        }
+    }
+
+    private LibraryUser createUserFromString(String csvText) {
+        String[] split = csvText.split(";");
+        String firstName = split[0];
+        String lastName = split[1];
+        String pesel = split[2];
+        return new LibraryUser(firstName, lastName, pesel);
+    }
+
+    private void importPublications(Library library) {
         try (Scanner fileReader = new Scanner(new File(FILE_NAME))) {
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
@@ -27,7 +54,6 @@ public class CsvFileManager implements FileManager {
         } catch (FileNotFoundException e) {
             throw new DataImportException("Not implemented");
         }
-        return library;
     }
 
     //BOOK;W pustyni i w pusczy;Greg;2010;Henryk Sienkiewicz;324;123456789
@@ -66,7 +92,27 @@ public class CsvFileManager implements FileManager {
 
     @Override
     public void exportData(Library library) {
-        Publication[] publications = library.getPublications();
+        exportPublications(library);
+        exportUsers(library);
+    }
+
+    private void exportUsers(Library library) {
+        Collection<LibraryUser> users = library.getUsers().values();
+        try (
+                var fileWriter = new FileWriter(USERS_FILE_NAME);
+                var bufferedWriter = new BufferedWriter(fileWriter);
+        ) {
+            for (LibraryUser user : users) {
+                bufferedWriter.write(user.toCsv());
+                bufferedWriter.newLine();
+            }
+        } catch (IOException e) {
+            throw new DataExportException("Faild to save data to file " + USERS_FILE_NAME);
+        }
+    }
+
+    private void exportPublications(Library library) {
+        Collection<Publication> publications = library.getPublications().values();
         try (
                 var fileWriter = new FileWriter(FILE_NAME);
                 var bufferedWriter = new BufferedWriter(fileWriter);
