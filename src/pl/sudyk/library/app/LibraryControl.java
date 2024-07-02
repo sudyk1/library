@@ -6,9 +6,9 @@ import pl.sudyk.library.io.DataReader;
 import pl.sudyk.library.io.file.FileManager;
 import pl.sudyk.library.io.file.FileManagerBuilder;
 import pl.sudyk.library.model.*;
-import pl.sudyk.library.model.comparator.AlphabeticalComparator;
+import pl.sudyk.library.model.comparator.AlphabeticalTitleComparator;
 
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -73,7 +73,12 @@ class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getUsers().values());
+        printer.printUsers(library.getSortedUsers(new Comparator<LibraryUser>() {
+            @Override
+            public int compare(LibraryUser user1, LibraryUser user2) {
+                return user1.getLastName().compareToIgnoreCase(user2.getLastName());
+            }
+        }));
     }
 
     private void addUser() {
@@ -103,7 +108,7 @@ class LibraryControl {
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getPublications().values());
+        printer.printMagazines(library.getSortedPublications(new AlphabeticalTitleComparator()));
     }
 
 //    private Publication[] getSortedPublications() {
@@ -148,7 +153,7 @@ class LibraryControl {
     }
 
     private void printBooks() {
-        printer.printBooks(library.getPublications().values());
+        printer.printBooks(library.getSortedPublications(new AlphabeticalTitleComparator()));
     }
 
     private void addBook() {
