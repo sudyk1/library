@@ -24,14 +24,14 @@ public class CsvFileManager implements FileManager {
     }
 
     private void importUsers(Library library) {
-        try (Scanner fileReader = new Scanner(new File(USERS_FILE_NAME))) {
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                LibraryUser user = createUserFromString(line);
-                library.addUser(user);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createUserFromString)
+                    .forEach(library::addUser);
         } catch (FileNotFoundException e) {
-            throw new DataImportException("Not implemented");
+            throw new DataImportException("File does not exist " + USERS_FILE_NAME);
+        } catch (IOException e) {
+            throw new DataImportException("Failed to read " + USERS_FILE_NAME);
         }
     }
 
@@ -44,15 +44,15 @@ public class CsvFileManager implements FileManager {
     }
 
     private void importPublications(Library library) {
-        try (Scanner fileReader = new Scanner(new File(FILE_NAME))) {
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                Publication publication = createObjectFromString(line);
-                library.addPublication(publication);
-            }
-
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME))) {
+            bufferedReader
+                    .lines()
+                    .map(this::createObjectFromString)
+                    .forEach(library::addPublication);
         } catch (FileNotFoundException e) {
-            throw new DataImportException("Not implemented");
+            throw new DataImportException("File does not exist " + FILE_NAME);
+        } catch (IOException e) {
+            throw new DataImportException("Failed to read " + FILE_NAME);
         }
     }
 
