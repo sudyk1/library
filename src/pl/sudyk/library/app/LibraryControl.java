@@ -6,7 +6,6 @@ import pl.sudyk.library.io.DataReader;
 import pl.sudyk.library.io.file.FileManager;
 import pl.sudyk.library.io.file.FileManagerBuilder;
 import pl.sudyk.library.model.*;
-import pl.sudyk.library.model.comparator.AlphabeticalTitleComparator;
 
 import java.util.Comparator;
 import java.util.InputMismatchException;
@@ -138,7 +137,7 @@ class LibraryControl {
                 printer.printLine("There is no such magazine in library.");
             }
         } catch (InputMismatchException e) {
-            printer.printLine("Failed to create magazine, incorrect data.");
+            printer.printLine("Failed to delete magazine, incorrect data.");
         }
     }
 
@@ -180,7 +179,7 @@ class LibraryControl {
                 printer.printLine("There is no such book in library.");
             }
         } catch (InputMismatchException e) {
-            printer.printLine("Failed to create book, incorrect data.");
+            printer.printLine("Failed to delete book, incorrect data.");
         }
     }
 
