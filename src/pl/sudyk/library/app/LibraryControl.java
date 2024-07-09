@@ -62,6 +62,9 @@ class LibraryControl {
                 case PRINT_USERS:
                     printUsers();
                     break;
+                case FIND_BOOK:
+                    findBook();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -69,6 +72,15 @@ class LibraryControl {
                     printer.printLine("No such option, choose again.");
             }
         } while (option != Option.EXIT);
+    }
+
+    private void findBook() {
+        printer.printLine("Enter publication title: ");
+        String title = dataReader.getString();
+        String notFoundMessage = "No publication of such title.";
+        library.findPublicationByTitle(title)
+                .map(Publication::toString)
+                .ifPresentOrElse(pub -> printer.printLine(pub), () -> printer.printLine(notFoundMessage));
     }
 
     private void printUsers() {
@@ -199,7 +211,8 @@ class LibraryControl {
         DELETE_BOOK(5, "delete book"),
         DELETE_MAGAZINE(6, "delete magazine"),
         ADD_USER(7, "add user"),
-        PRINT_USERS(8, "print users");
+        PRINT_USERS(8, "print users"),
+        FIND_BOOK(9, "find book");
 
         private final int value;
         private final String description;
