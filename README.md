@@ -1,6 +1,6 @@
-# Library Management Console Application
+# Library Console Application
 
-The **Library Management Console Application** is a simple and efficient program designed to manage a library's data. The application allows users to:
+The **Library Console Application** is a simple program designed to manage a library's data. The application allows users to:
 
 - Add books, magazines, and users.
 - Display the library's data (books, magazines, users) in the console.
